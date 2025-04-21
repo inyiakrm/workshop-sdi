@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentasi Interaktif: Pemahaman Struktural</title>
+    <style>
+        /* Reset dan Base Styles */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #16a085;
+            --text-color: #2c3e50;
+            --light-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --code-bg: #f8f9fa;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 20px;
+        }
+        
+        .presentation-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .presentation-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+        }
+        
+        h1 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            font-size: 2.2rem;
+            position: relative;
+        }
+        
+        h1::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--accent-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        
+        h2 {
+            color: var(--secondary-color);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 24px;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+        }
+        
+        h3 {
+            color: var(--accent-color);
+            margin: 20px 0 12px;
+            font-size: 1.3rem;
+        }
+        
+        h4 {
+            color: var(--secondary-color);
+            margin: 18px 0 10px;
+            font-size: 1.1rem;
+        }
+        
+        /* Sistem Accordion Utama */
+        .main-accordion {
+            margin: 30px 0;
+        }
+        
+        .main-accordion-item {
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            transition: all 0.3s ease;
+        }
+        
+        .main-accordion-item:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+        }
+        
+        .main-accordion-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 18px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .main-accordion-header:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .main-accordion-header::after {
+            content: '+';
+            font-size: 24px;
+            transition: transform 0.3s;
+        }
+        
+        .main-accordion-item.active .main-accordion-header::after {
+            content: '-';
+        }
+        
+        .main-accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.3s ease;
+        }
+        
+        .main-accordion-item.active .main-accordion-content {
+            padding: 25px;
+            max-height: 5000px;
+        }
+        
+        /* Sistem Accordion Kedua (nested) */
+        .nested-accordion {
+            margin: 15px 0 0;
+        }
+        
+        .nested-accordion-item {
+            margin-bottom: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        
+        .nested-accordion-header {
+            background-color: #e8f4fc;
+            color: var(--secondary-color);
+            padding: 14px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .nested-accordion-header:hover {
+            background-color: #d4e9fa;
+        }
+        
+        .nested-accordion-header::after {
+            content: '+';
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .nested-accordion-item.active .nested-accordion-header::after {
+            content: '-';
+        }
+        
+        .nested-accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+        
+        .nested-accordion-item.active .nested-accordion-content {
+            padding: 18px;
+            max-height: 3000px;
+        }
+        
+        /* Konten Styles */
+        .content-block {
+            margin-bottom: 20px;
+        }
+        
+        .content-block p {
+            margin-bottom: 12px;
+        }
+        
+        .content-block ul, .content-block ol {
+            padding-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-block li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .content-block li::before {
+            content: '•';
+            color: var(--accent-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+            position: absolute;
+            left: 0;
+        }
+        
+        .content-block ol {
+            counter-reset: item;
+        }
+        
+        .content-block ol li {
+            counter-increment: item;
+        }
+        
+        .content-block ol li::before {
+            content: counter(item) '.';
+            color: var(--secondary-color);
+        }
+        
+        /* Format Prompting yang Diperbaiki */
+        .prompt-container {
+            margin: 20px 0;
+            border-left: 4px solid var(--accent-color);
+            background-color: var(--code-bg);
+            border-radius: 0 8px 8px 0;
+            overflow: hidden;
+        }
+        
+        .prompt-header {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .prompt-header .icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .prompt-content {
+            padding: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+        
+        .prompt-type {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            font-weight: normal;
+        }
+        
+        /* Box Catatan Penting */
+        .important-note {
+            background-color: #fff8e6;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .important-note-title {
+            font-weight: 600;
+            color: #ff9800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .important-note-title::before {
+            content: '❗';
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        /* Note dan Box Khusus */
+        .note {
+            background-color: #e8f4fc;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .note-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .note-title::before {
+            content: 'ℹ️';
+            margin-right: 8px;
+        }
+        
+        .warning {
+            background-color: #fef6e6;
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .warning .note-title::before {
+            content: '⚠️';
+        }
+        
+        .success {
+            background-color: #e8f8f0;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .success .note-title::before {
+            content: '✅';
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .presentation-container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            .main-accordion-header {
+                padding: 15px 20px;
+                font-size: 1.1rem;
+            }
+            
+            .nested-accordion-header {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <h1>Optimalisasi Literasi Akademik dengan Bantuan AI</h1>
+        <h2>Pemahaman Struktural</h2>
+        
+        <div class="main-accordion">
+            <!-- Bagian 1: Pendahuluan -->
+            <div class="main-accordion-item active">
+                <div class="main-accordion-header">Pendahuluan Pemahaman Struktural</div>
+                <div class="main-accordion-content">
+                    <div class="content-block">
+                        <p>Pemahaman Struktural merupakan tahap awal dan fundamental dalam proses membaca dengan bantuan AI. Pendekatan ini berfokus pada memahami kerangka konseptual, arsitektur argumentasi, dan hubungan antarelemen dalam teks akademik.</p>
+                    </div>
+                    
+                    <div class="content-block">
+                        <h3>Strategi Pendekatan Dua Tahap</h3>
+                            <h4>1. Memperoleh Gambaran Umum</h4>
+                            <ul>
+                                <li>Memahami Konteks</li>
+                                <li>Mendapatkan Fokus</li>
+                                <li>Mendapatkan Gambaran Kerangka Besar</li>
+                            </ul>
+                            <h4>2. Analisis Struktur Mendalam</h4>
+                            <ul>
+                                <li>Mengidentifikasi Komponen Struktural Teks</li>
+                                <li>Menganalisis Komponen Tersebut Secara Detail</li>
+                            </ul>
+                    </div>
+                    
+                    <div class="important-note">
+                        <div class="important-note-title">Catatan Penting</div>
+                        <p>Tahap pertama memberikan landasan kontekstual yang diperlukan untuk analisis yang lebih mendalam pada tahap kedua. Tanpa pemahaman awal tentang konteks dan tujuan keseluruhan teks, analisis struktural detail mungkin kehilangan perspektif dan relevansi.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bagian 2: Tahap 1 - Gambaran Umum -->
+            <div class="main-accordion-item">
+                <div class="main-accordion-header">Tahap 1: Memperoleh Gambaran Umum</div>
+                <div class="main-accordion-content">
+                    <div class="content-block">
+                        <p>Gambaran umum memberikan fondasi kognitif yang diperlukan sebelum menganalisis struktur detail. Ini membantu mengontekstualisasikan elemen-elemen individual dan menghindari pemborosan energi kognitif dengan memastikan fokus pada aspek yang relevan.</p>
+                    </div>
+                    
+                    <div class="important-note">
+                        <div class="important-note-title">Catatan Penting</div>
+                        <p>Gambaran umum harus mencakup identifikasi dasar, kontekstualisasi, karakterisasi teks, dan pemetaan awal. Pastikan untuk memahami konteks sebelum masuk ke analisis detail.</p>
+                    </div>
+                    
+                    <!-- Sub-accordion untuk Elemen Kunci -->
+                    <div class="nested-accordion">
+                        <div class="nested-accordion-item active">
+                            <div class="nested-accordion-header"><strong>Elemen Kunci dalam Gambaran Umum</strong></div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <h4>1. Identifikasi Dasar</h4>
+                                    <ul>
+                                        <li>Topik utama teks dan fokus spesifiknya</li>
+                                        <li>Pertanyaan penelitian atau masalah yang dibahas</li>
+                                        <li>Tujuan utama penulis (menginformasikan, meyakinkan, mengkritik, dll.)</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="content-block">
+                                    <h4>2. Kontekstualisasi</h4>
+                                    <ul>
+                                        <li>Konteks akademik atau disiplin ilmu yang melatarbelakangi teks</li>
+                                        <li>Tradisi intelektual atau teoretis yang memengaruhi pendekatan penulis</li>
+                                        <li>Posisi teks dalam perdebatan atau diskursus yang lebih luas</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="content-block">
+                                    <h4>3. Karakterisasi Teks</h4>
+                                    <ul>
+                                        <li>Jenis teks (argumentatif, deskriptif, naratif, empiris, konseptual, dll.)</li>
+                                        <li>Pendekatan metodologis yang digunakan</li>
+                                        <li>Gaya penulisan dan konvensi retoris yang dominan</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="content-block">
+                                    <h4>4. Pemetaan Awal</h4>
+                                    <ul>
+                                        <li>Struktur umum dan organisasi teks</li>
+                                        <li>Bagian-bagian utama dan fungsinya</li>
+                                        <li>Alur argumentasi atau pengembangan ide</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sub-accordion untuk Format Prompting Umum -->
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Format Prompting Umum</div>
+                            <div class="nested-accordion-content">
+                                <div class="prompt-container">
+                                    <div class="prompt-header">
+                                        <span class="icon">📝</span> Prompt Dasar
+                                        <span class="prompt-type">Untuk Teks Secara Umum</span>
+                                    </div>
+                                    <div class="prompt-content">
+Konteks: Gambaran umum [judul teks]
+Tujuan: Memahami konteks, fokus, dan kerangka umum teks sebelum menganalisis strukturnya
+Permintaan:
+1. Jelaskan secara ringkas apa topik utama teks ini dan pertanyaan atau masalah yang ingin dijawab 
+2. Identifikasi tujuan utama penulis dan pendekatan yang digunakan
+3. Jelaskan konteks akademik, disiplin ilmu, atau tradisi intelektual yang menjadi latar belakang teks ini
+4. Deskripsikan jenis teks ini (argumentatif, naratif, deskriptif, dll.) dan bagaimana hal itu memengaruhi cara membacanya
+5. Berikan ringkasan sangat singkat tentang bagian-bagian utama teks dan alur pemikirannya
+                                    </div>
+                                </div>
+                                
+                                <div class="important-note">
+                                    <div class="important-note-title">Catatan Penting</div>
+                                    <p>Prompt ini dapat disesuaikan dengan jenis teks tertentu. Lihat contoh-contoh di bawah untuk penyesuaian berdasarkan jenis teks.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sub-accordion untuk Format Prompting Berdasarkan Jenis Teks -->
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Format Prompting Berdasarkan Jenis Teks</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <h4>1. Teks Argumentatif-Analitis</h4>
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span class="icon">📚</span> Artikel Jurnal/Makalah Teoretis
+                                            <span class="prompt-type">Argumentatif</span>
+                                        </div>
+                                        <div class="prompt-content">
+Konteks: Gambaran umum [judul teks argumentatif]
+Tujuan: Memahami kerangka argumentasi dan konteks teoretis
+Permintaan:
+1. Identifikasi tesis utama atau argumen sentral teks
+2. Jelaskan secara ringkas kerangka teoretis yang digunakan penulis
+3. Deskripsikan jenis bukti atau contoh yang digunakan untuk mendukung argumen
+4. Kontekstualisasikan teks ini dalam perdebatan akademik atau sosial yang lebih luas
+5. Jelaskan struktur umum bagaimana argumentasi dikembangkan
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="content-block">
+                                    <h4>2. Teks Empiris</h4>
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span class="icon">🔬</span> Penelitian Eksperimental/Studi Kasus
+                                            <span class="prompt-type">Empiris</span>
+                                        </div>
+                                        <div class="prompt-content">
+Konteks: Gambaran umum [judul teks empiris]
+Tujuan: Memahami kerangka metodologis dan temuan utama
+Permintaan:
+1. Identifikasi pertanyaan penelitian utama dan hipotesis (jika ada)
+2. Jelaskan metodologi dan desain penelitian secara singkat
+3. Deskripsikan temuan utama dan signifikansinya
+4. Kontekstualisasikan penelitian ini dalam literatur terkait
+5. Jelaskan bagaimana penulis mengembangkan argumen dari data ke kesimpulan
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="content-block">
+                                    <h4>3. Teks Naratif-Historis</h4>
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span class="icon">🕰️</span> Narasi Historis/Analisis Perkembangan
+                                            <span class="prompt-type">Naratif</span>
+                                        </div>
+                                        <div class="prompt-content">
+Konteks: Gambaran umum [judul teks naratif-historis]
+Tujuan: Memahami kerangka kronologis dan interpretasi historis
+Permintaan:
+1. Identifikasi fokus temporal dan geografis teks
+2. Jelaskan perspektif historiografis yang digunakan penulis
+3. Deskripsikan periodisasi atau struktur naratif utama
+4. Identifikasi tema dan motif utama yang muncul dalam narasi
+5. Jelaskan bagaimana penulis menginterpretasikan peristiwa atau perkembangan yang dibahas
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="content-block">
+                                    <h4>4. Teks Konseptual-Filosofis</h4>
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span class="icon">🧠</span> Esai Filosofis/Eksplorasi Konseptual
+                                            <span class="prompt-type">Filosofis</span>
+                                        </div>
+                                        <div class="prompt-content">
+Konteks: Gambaran umum [judul teks konseptual-filosofis]
+Tujuan: Memahami kerangka konseptual dan posisi filosofis
+Permintaan:
+1. Identifikasi pertanyaan filosofis utama yang dibahas
+2. Jelaskan tradisi filosofis atau aliran pemikiran yang memengaruhi teks
+3. Deskripsikan konsep-konsep kunci yang diperkenalkan atau direinterpretasi
+4. Kontekstualisasikan argumen dalam dialog filosofis yang lebih luas
+5. Jelaskan bagaimana penulis mengembangkan posisi filosofisnya
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="important-note">
+                                    <div class="important-note-title">Catatan Penting</div>
+                                    <p>Pastikan untuk memilih format prompting yang sesuai dengan jenis teks yang sedang dianalisis. Penyesuaian prompt berdasarkan jenis teks akan menghasilkan analisis yang lebih relevan dan akurat.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bagian 3: Tahap 2 - Analisis Struktur Mendalam -->
+            <div class="main-accordion-item">
+                <div class="main-accordion-header">Tahap 2: Analisis Struktur Mendalam</div>
+                <div class="main-accordion-content">
+                    <div class="content-block">
+                        <p>Setelah memperoleh gambaran umum yang komprehensif, langkah berikutnya adalah menganalisis struktur teks secara lebih mendalam untuk mengidentifikasi komponen-komponen struktural spesifik dan menganalisis hubungan antara mereka.</p>
+                    </div>
+                    
+                    <div class="important-note">
+                        <div class="important-note-title">Catatan Penting</div>
+                        <p>Analisis struktur mendalam harus dilakukan setelah memiliki pemahaman yang cukup tentang gambaran umum teks. Langkah ini membutuhkan fokus pada detail dan hubungan antarkomponen teks.</p>
+                    </div>
+                    
+                    <!-- Sub-accordion untuk Elemen Kunci -->
+                    <div class="nested-accordion">
+                        <div class="nested-accordion-item active">
+                            <div class="nested-accordion-header">Elemen Kunci Analisis Struktur Mendalam</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <h4>1. Identifikasi Pola Organisasi Teks</h4>
+                                    <ul>
+                                        <li>Bagaimana teks disusun? (kronologis, tematik, argumentatif, naratif, dll)</li>
+                                        <li>Apa fungsi dari bagian-bagian berbeda dalam teks?</li>
+                                        <li>Bagaimana transisi antar bagian teks dikelola?</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="content-block">
+                                    <h4>2. Pemetaan Konsep dan Ide</h4>
+                                    <ul>
+                                        <li><strong>Fungsi Struktural dalam Teks</strong> - Peran konsep dalam struktur argumentasi</li>
+                                        <li><strong>Frekuensi dan Persistensi</strong> - Seberapa sering konsep muncul dan konsistensinya</li>
+                                        <li><strong>Kekuatan Definitif</strong> - Bagaimana konsep didefinisikan dan dijelaskan</li>
+                                        <li><strong>Fungsi Pengorganisasian</strong> - Bagaimana konsep mengorganisasi argumen lain</li>
+                                        <li><strong>Nilai Penjelas</strong> - Kontribusi konsep terhadap pemahaman teks</li>
+                                        <li><strong>Koherensi dengan Tujuan</strong> - Hubungan konsep dengan tujuan teks</li>
+                                        <li><strong>Kemandirian Konseptual</strong> - Integritas dan koherensi internal konsep</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="content-block">
+                                    <h4>3. Analisis Hubungan Antarkonsep</h4>
+                                    <div class="note success">
+                                        <div class="note-title">Tip Analisis</div>
+                                        <p>Pemahaman struktural yang komprehensif tidak hanya mengidentifikasi konsep-konsep utama tetapi juga meneliti bagaimana konsep-konsep tersebut saling berhubungan.</p>
+                                    </div>
+                                    
+                                    <div class="content-block">
+                                        <h5>Jenis Hubungan Konseptual:</h5>
+                                        <ul>
+                                            <li><strong>Hierarkis</strong>: Generalisasi-spesifikasi, abstraksi-konkretisasi, kategori-anggota</li>
+                                            <li><strong>Logis</strong>: Premis-kesimpulan, kondisi-konsekuensi, kontradiksi-oposisi</li>
+                                            <li><strong>Fungsional</strong>: Fungsi-tujuan, problem-solusi, sarana-hasil</li>
+                                            <li><strong>Kausal</strong>: Sebab-akibat, stimulus-respons, masalah-dampak</li>
+                                            <li><strong>Semantik</strong>: Sinonimi-kesetaraan, antonimi-perlawanan, komplementaritas</li>
+                                            <li><strong>Temporal</strong>: Sekuensial, simultan, evolusioner</li>
+                                            <li><strong>Dialektis</strong>: Tesis-antitesis-sintesis, konflik-resolusi, paradoks-rekonsiliasi</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="important-note">
+                                    <div class="important-note-title">Catatan Penting</div>
+                                    <p>Analisis hubungan antarkonsep adalah inti dari pemahaman struktural. Luangkan waktu untuk memetakan hubungan-hubungan ini secara sistematis.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sub-accordion untuk Format Prompting -->
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Format Prompting Analisis Mendalam</div>
+                            <div class="nested-accordion-content">
+                                <div class="prompt-container">
+                                    <div class="prompt-header">
+                                        <span class="icon">🔍</span> Analisis Struktural Umum
+                                        <span class="prompt-type">Struktur Mendalam</span>
+                                    </div>
+                                    <div class="prompt-content">
+Konteks: Analisis struktural mendalam [judul teks]
+Tujuan: Menganalisis struktur konseptual dan organisasi detail teks
+Permintaan:
+1. Identifikasi pola pengorganisasian utama dalam teks ini (argumentatif, naratif, tematik, dll)
+2. Petakan konsep-konsep kunci dan jelaskan bagaimana konsep tersebut saling berhubungan
+3. Identifikasi kerangka pemikiran atau pendekatan yang digunakan penulis
+4. Jelaskan bagaimana alur penyampaian distrukturkan untuk mencapai tujuan teks
+5. Analisis bagaimana bukti atau contoh diorganisir untuk mendukung argumen utama
+                                    </div>
+                                </div>
+                                
+                                <div class="content-block">
+                                    <h4>Prompt Khusus Jenis Teks</h4>
+                                    
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span class="icon">📚</span> Teks Argumentatif-Analitis
+                                            <span class="prompt-type">Analisis Mendalam</span>
+                                        </div>
+                                        <div class="prompt-content">
+Konteks: Analisis struktural [judul teks argumentatif]
+Tujuan: Memahami struktur argumentasi dan kerangka teoretis
+Permintaan:
+1. Identifikasi tesis utama dan sub-tesis yang mendukungnya
+2. Petakan argumen utama dan bagaimana argumen ini mendukung tesis
+3. Identifikasi kerangka teoretis dan asumsi epistemologis yang mendasari
+4. Jelaskan bagaimana bukti diorganisir untuk mendukung argumen
+5. Analisis struktur logis dari argumentasi keseluruhan
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="prompt-container">
+                                        <div class="prompt-header">
+                                            <span class="icon">🔬</span> Teks Empiris
+                                            <span class="prompt-type">Analisis Mendalam</span>
+                                        </div>
+                                        <div class="prompt-content">
+Konteks: Analisis struktural [judul teks empiris]
+Tujuan: Memahami struktur metodologis dan pola penyajian temuan
+Permintaan:
+1. Identifikasi pertanyaan penelitian dan hipotesis utama
+2. Petakan kerangka metodologis dan desain penelitian
+3. Analisis bagaimana data diorganisir dan dipresentasikan
+4. Jelaskan hubungan antara temuan empiris dan klaim teoretis
+5. Identifikasi bagaimana keterbatasan diakui dan diatasi
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="important-note">
+                                    <div class="important-note-title">Catatan Penting</div>
+                                    <p>Gunakan format prompting yang sesuai dengan jenis teks dan tujuan analisis Anda. Prompt yang tepat akan menghasilkan analisis yang lebih terstruktur dan mendalam.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sub-accordion untuk Representasi Hubungan -->
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Metode Representasi Hubungan</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <h4>1. Deskripsi Verbal</h4>
+                                    <p>Representasi naratif yang menjelaskan struktur teks dan hubungan antarkonsep secara deskriptif.</p>
+                                    <div class="note">
+                                        <div class="note-title">Contoh:</div>
+                                        <p>"Dalam teks ini, konsep 'validitas ekologis' berfungsi sebagai prinsip evaluatif yang diterapkan pada 'metode eksperimental'. Hubungan ini bersifat dialektis, di mana ketegangan antara kontrol eksperimental dan realisme kontekstual dieksplorasi untuk mengembangkan pendekatan metodologis yang lebih nuansir."</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="content-block">
+                                    <h4>2. Matriks Relasional</h4>
+                                    <p>Tabel yang menampilkan hubungan antarkonsep secara sistematis.</p>
+                                    <div class="note warning">
+                                        <div class="note-title">Format Matriks:</div>
+                                        <p>| Konsep A | Jenis Hubungan | Konsep B | Konteks/Elaborasi |</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="content-block">
+                                    <h4>3. Diagram Visual</h4>
+                                    <ul>
+                                        <li><strong>Peta Konsep</strong>: Node dan garis berlabel</li>
+                                        <li><strong>Diagram Alir</strong>: Alur logis atau kronologis</li>
+                                        <li><strong>Jaringan Semantik</strong>: Web interkoneksi semantik</li>
+                                        <li><strong>Model Hierarkis</strong>: Taksonomi, diagram pohon, piramida konsep</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="important-note">
+                                    <div class="important-note-title">Catatan Penting</div>
+                                    <p>Pilih metode representasi yang paling sesuai dengan kompleksitas hubungan yang ingin Anda tampilkan. Diagram visual sangat membantu untuk hubungan yang kompleks, sementara deskripsi verbal lebih baik untuk hubungan yang nuansir.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bagian 4: Integrasi dan Kesimpulan -->
+            <div class="main-accordion-item">
+                <div class="main-accordion-header">Integrasi dan Kesimpulan</div>
+                <div class="main-accordion-content">
+                    <div class="content-block">
+                        <h3>Mengintegrasikan Kedua Tahap</h3>
+                        <p>Kunci untuk pemahaman struktural yang efektif adalah mengintegrasikan gambaran umum dengan analisis detail dalam proses iteratif.</p>
+                        
+                        <div class="note">
+                            <div class="note-title">Proses Iteratif:</div>
+                            <ol>
+                                <li>Mulai dengan gambaran umum untuk memahami konteks, tujuan, dan struktur keseluruhan</li>
+                                <li>Lakukan analisis struktur mendalam untuk mengidentifikasi konsep kunci dan hubungan antarkonsep</li>
+                                <li>Kembali ke gambaran umum untuk memperbarui pemahaman awal berdasarkan temuan detail</li>
+                                <li>Lanjutkan dengan analisis yang lebih spesifik pada area yang memerlukan perhatian khusus</li>
+                                <li>Refleksikan dan evaluasi pemahaman keseluruhan untuk memastikan koherensi dan komprehensivitas</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="content-block">
+                        <h3>Dokumentasi Pemahaman Struktural Terpadu</h3>
+                        <div class="prompt-container">
+                            <div class="prompt-header">
+                                <span class="icon">📋</span> Template Dokumentasi
+                                <span class="prompt-type">Struktur Terpadu</span>
+                            </div>
+                            <div class="prompt-content">
+# Dokumentasi Pemahaman Struktural: [Judul Teks]
+
+## Gambaran Umum
+- Topik dan fokus utama:
+- Tujuan dan pendekatan penulis:
+- Konteks akademik dan posisi dalam diskursus:
+- Jenis teks dan karakteristik utama:
+- Struktur keseluruhan dan alur argumentasi:
+
+## Analisis Struktural Mendalam
+- Konsep-konsep kunci dan definisinya:
+- Hubungan antarkonsep utama:
+- Kerangka teoretis dan asumsi dasar:
+- Pola argumentasi dan pengorganisasian bukti:
+- Area ambiguitas atau kompleksitas konseptual:
+
+## Sintesis dan Refleksi
+- Perpaduan pemahaman umum dan detail:
+- Temuan utama dari analisis struktural:
+- Implikasi untuk pemahaman keseluruhan teks:
+- Pertanyaan untuk eksplorasi lebih lanjut:
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="important-note">
+                        <div class="important-note-title">Catatan Penting</div>
+                        <p>Dokumentasikan setiap tahap analisis secara sistematis. Template ini membantu memastikan tidak ada elemen penting yang terlewat dalam proses pemahaman struktural.</p>
+                    </div>
+                    
+                    <div class="content-block">
+                        <h3>Kesimpulan</h3>
+                        <p>Pendekatan dua tahap untuk pemahaman struktural—memperoleh gambaran umum dan melakukan analisis struktur mendalam—memungkinkan pemahaman yang lebih komprehensif dan kontekstual terhadap teks akademik. Dengan menggunakan format prompting yang disesuaikan dengan jenis teks dan menerapkan strategi analisis yang sistematis, mahasiswa dapat memanfaatkan AI sebagai alat yang efektif untuk mengembangkan pemahaman struktural yang kaya dan mendalam.</p>
+                    </div>
+                    
+                    <div class="important-note">
+                        <div class="important-note-title">Catatan Penting</div>
+                        <p>Proses pemahaman struktural adalah iteratif. Jangan ragu untuk kembali ke tahap sebelumnya jika ditemukan informasi baru yang mengubah pemahaman Anda terhadap teks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sistem accordion utama
+            const mainAccordionItems = document.querySelectorAll('.main-accordion-item');
+            
+            mainAccordionItems.forEach(item => {
+                const header = item.querySelector('.main-accordion-header');
+                
+                header.addEventListener('click', () => {
+                    // Tutup semua item accordion utama lainnya
+                    mainAccordionItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle item yang diklik
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Sistem accordion nested
+            const nestedAccordionItems = document.querySelectorAll('.nested-accordion-item');
+            
+            nestedAccordionItems.forEach(item => {
+                const header = item.querySelector('.nested-accordion-header');
+                
+                header.addEventListener('click', () => {
+                    // Biarkan multiple nested accordion terbuka
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Buka item pertama secara default
+            if (mainAccordionItems.length > 0) {
+                mainAccordionItems[0].classList.add('active');
+            }
+            
+            // Buka nested accordion pertama di setiap main accordion
+            document.querySelectorAll('.nested-accordion').forEach(nestedAcc => {
+                const firstNestedItem = nestedAcc.querySelector('.nested-accordion-item');
+                if (firstNestedItem) {
+                    firstNestedItem.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop Literasi Akademik Berbantuan AI</title>
+    <style>
+        :root {
+            /* Warna dasar */
+            --text-color: #2c3e50;
+            --light-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            
+            /* Warna untuk setiap pertemuan */
+            --pertemuan-1: #3498db; /* Biru */
+            --pertemuan-2: #16a085; /* Teal */
+            --pertemuan-3: #9b59b6; /* Ungu */
+            --pertemuan-4: #e67e22; /* Oranye */
+            --pertemuan-5: #2ecc71; /* Hijau */
+            
+            /* Variasi warna untuk hover */
+            --pertemuan-1-hover: #2980b9;
+            --pertemuan-2-hover: #1abc9c;
+            --pertemuan-3-hover: #8e44ad;
+            --pertemuan-4-hover: #d35400;
+            --pertemuan-5-hover: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                var(--pertemuan-1), 
+                var(--pertemuan-2), 
+                var(--pertemuan-3), 
+                var(--pertemuan-4), 
+                var(--pertemuan-5));
+        }
+        
+        h1 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--pertemuan-1);
+            font-size: 2.2rem;
+            position: relative;
+        }
+        
+        h1::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, 
+                var(--pertemuan-1), 
+                var(--pertemuan-5));
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        
+        h2 {
+            color: var(--text-color);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 24px;
+            background: linear-gradient(to bottom, 
+                var(--pertemuan-1), 
+                var(--pertemuan-5));
+            border-radius: 3px;
+        }
+        
+        /* Sistem Accordion Utama */
+        .main-accordion {
+            margin: 30px 0;
+        }
+        
+        .main-accordion-item {
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            transition: all 0.3s ease;
+        }
+        
+        .main-accordion-item:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+        }
+        
+        /* Warna header accordion untuk setiap pertemuan */
+        .main-accordion-item:nth-child(1) .main-accordion-header {
+            background-color: var(--pertemuan-1);
+        }
+        .main-accordion-item:nth-child(1) .main-accordion-header:hover {
+            background-color: var(--pertemuan-1-hover);
+        }
+        
+        .main-accordion-item:nth-child(2) .main-accordion-header {
+            background-color: var(--pertemuan-2);
+        }
+        .main-accordion-item:nth-child(2) .main-accordion-header:hover {
+            background-color: var(--pertemuan-2-hover);
+        }
+        
+        .main-accordion-item:nth-child(3) .main-accordion-header {
+            background-color: var(--pertemuan-3);
+        }
+        .main-accordion-item:nth-child(3) .main-accordion-header:hover {
+            background-color: var(--pertemuan-3-hover);
+        }
+        
+        .main-accordion-item:nth-child(4) .main-accordion-header {
+            background-color: var(--pertemuan-4);
+        }
+        .main-accordion-item:nth-child(4) .main-accordion-header:hover {
+            background-color: var(--pertemuan-4-hover);
+        }
+        
+        .main-accordion-item:nth-child(5) .main-accordion-header {
+            background-color: var(--pertemuan-5);
+        }
+        .main-accordion-item:nth-child(5) .main-accordion-header:hover {
+            background-color: var(--pertemuan-5-hover);
+        }
+        
+        .main-accordion-header {
+            color: white;
+            padding: 18px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .main-accordion-header::after {
+            content: '+';
+            font-size: 24px;
+            transition: transform 0.3s;
+        }
+        
+        .main-accordion-item.active .main-accordion-header::after {
+            content: '-';
+        }
+        
+        .main-accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.3s ease;
+        }
+        
+        .main-accordion-item.active .main-accordion-content {
+            padding: 25px;
+            max-height: 5000px;
+        }
+        
+        /* Sistem Accordion Kedua (nested) */
+        .nested-accordion {
+            margin: 15px 0 0;
+        }
+        
+        .nested-accordion-item {
+            margin-bottom: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Warna nested accordion mengikuti warna pertemuan */
+        .main-accordion-item:nth-child(1) .nested-accordion-header {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--pertemuan-1);
+        }
+        .main-accordion-item:nth-child(2) .nested-accordion-header {
+            background-color: rgba(22, 160, 133, 0.1);
+            color: var(--pertemuan-2);
+        }
+        .main-accordion-item:nth-child(3) .nested-accordion-header {
+            background-color: rgba(155, 89, 182, 0.1);
+            color: var(--pertemuan-3);
+        }
+        .main-accordion-item:nth-child(4) .nested-accordion-header {
+            background-color: rgba(230, 126, 34, 0.1);
+            color: var(--pertemuan-4);
+        }
+        .main-accordion-item:nth-child(5) .nested-accordion-header {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--pertemuan-5);
+        }
+        
+        .nested-accordion-header {
+            padding: 14px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .main-accordion-item:nth-child(1) .nested-accordion-header:hover {
+            background-color: rgba(52, 152, 219, 0.2);
+        }
+        .main-accordion-item:nth-child(2) .nested-accordion-header:hover {
+            background-color: rgba(22, 160, 133, 0.2);
+        }
+        .main-accordion-item:nth-child(3) .nested-accordion-header:hover {
+            background-color: rgba(155, 89, 182, 0.2);
+        }
+        .main-accordion-item:nth-child(4) .nested-accordion-header:hover {
+            background-color: rgba(230, 126, 34, 0.2);
+        }
+        .main-accordion-item:nth-child(5) .nested-accordion-header:hover {
+            background-color: rgba(46, 204, 113, 0.2);
+        }
+        
+        .nested-accordion-header::after {
+            content: '+';
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .nested-accordion-item.active .nested-accordion-header::after {
+            content: '-';
+        }
+        
+        .nested-accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+        
+        .nested-accordion-item.active .nested-accordion-content {
+            padding: 18px;
+            max-height: 3000px;
+        }
+        
+        /* Konten Styles */
+        .content-block {
+            margin-bottom: 20px;
+        }
+        
+        .content-block li {
+            margin-bottom: 10px;
+        }
+        
+        .content-block ul, .content-block ol {
+            list-style-type: none;
+        }
+        
+        .content-block ul > li {
+            position: relative;
+            padding-left: 1.2em;
+        }
+        
+        /* Warna bullet point mengikuti warna pertemuan */
+        .main-accordion-item:nth-child(1) .content-block ul > li::before {
+            color: var(--pertemuan-1);
+        }
+        .main-accordion-item:nth-child(2) .content-block ul > li::before {
+            color: var(--pertemuan-2);
+        }
+        .main-accordion-item:nth-child(3) .content-block ul > li::before {
+            color: var(--pertemuan-3);
+        }
+        .main-accordion-item:nth-child(4) .content-block ul > li::before {
+            color: var(--pertemuan-4);
+        }
+        .main-accordion-item:nth-child(5) .content-block ul > li::before {
+            color: var(--pertemuan-5);
+        }
+        
+        .content-block ul > li::before {
+            content: '•';
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            position: absolute;
+            left: 0;
+        }
+        
+        .content-block ol {
+            counter-reset: olcounter;
+        }
+        
+        .content-block ol > li {
+            counter-increment: olcounter;
+            position: relative;
+            padding-left: 1.2em;
+        }
+        
+        /* Warna nomor mengikuti warna pertemuan */
+        .main-accordion-item:nth-child(1) .content-block ol > li::before {
+            color: var(--pertemuan-1);
+        }
+        .main-accordion-item:nth-child(2) .content-block ol > li::before {
+            color: var(--pertemuan-2);
+        }
+        .main-accordion-item:nth-child(3) .content-block ol > li::before {
+            color: var(--pertemuan-3);
+        }
+        .main-accordion-item:nth-child(4) .content-block ol > li::before {
+            color: var(--pertemuan-4);
+        }
+        .main-accordion-item:nth-child(5) .content-block ol > li::before {
+            color: var(--pertemuan-5);
+        }
+        
+        .content-block ol > li::before {
+            content: counter(olcounter) '.';
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2em;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* Box Catatan Penting */
+        .important-note {
+            background-color: #fff8e6;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .important-note-title {
+            font-weight: 600;
+            color: #ff9800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .important-note-title::before {
+            content: '❗';
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .main-accordion-header {
+                padding: 15px 20px;
+                font-size: 1.1rem;
+            }
+            
+            .nested-accordion-header {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RANGKAIAN KEGIATAN WORKSHOP</h1>
+        <h2>Literasi Akademik Berbantuan AI</h2>
+        
+        <div class="main-accordion">
+            <!-- Pertemuan 1 -->
+            <div class="main-accordion-item">
+                <div class="main-accordion-header">Pertemuan 1: Inisiasi dan Persiapan (2 x 60 menit)</div>
+                <div class="main-accordion-content">
+                    <div class="nested-accordion">
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Tujuan</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ul>
+                                        <li>Membangun kesamaan persepsi tentang pendekatan</li>
+                                        <li>Asesemen teks dan identifikasi kebutuhan masing-masing peserta</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Agenda</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ol>
+                                        <li>
+                                            <strong>Pengenalan konsep membaca akademis berbantuan AI (30 menit)</strong>
+                                            <ul>
+                                                <li>Filosofi pendekatan</li>
+                                                <li>Etika penggunaan AI</li>
+                                                <li>Pengenalan teknis</li>
+                                                <li>Penjelasan peran mentor dan aktivitas peserta</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <strong>Pemetaan Awal Kebutuhan (60 menit)</strong>
+                                            <ul>
+                                                <li>Setiap peserta mempresentasikan teks akademis yang akan dianalisis</li>
+                                                <li>Diskusi karakteristik teks</li>
+                                                <li>Identifikasi tantangan spesifik dalam memahami teks</li>
+                                            </ul>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Luaran</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ul>
+                                        <li>Kontrak Belajar</li>
+                                        <li>Matriks Kebutuhan Individu</li>
+                                        <li>Kesepakatan metodologis</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pertemuan 2 -->
+            <div class="main-accordion-item">
+                <div class="main-accordion-header">Pertemuan 2: Pemahaman Struktural dengan AI (2 x 60 menit)</div>
+                <div class="main-accordion-content">
+                    <div class="nested-accordion">
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Tujuan</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ul>
+                                        <li>Mengembangkan kemampuan memetakan struktur teks menggunakan AI</li>
+                                        <li>Melatih keterampilan bertanya pada AI</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Agenda</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ol>
+                                        <li>
+                                            <strong>Praktik Pertama: Struktural Teks (60 menit)</strong>
+                                            <ul>
+                                                <li>Demonstrasi teknik prompt AI untuk pemetaan</li>
+                                                <li>Setiap peserta mempraktikkan dengan teks masing-masing</li>
+                                                <li>Sesi berbagi hasil pemetaan</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <strong>Refleksi dan Penghalusan Metode (60 menit)</strong>
+                                            <ul>
+                                                <li>Diskusi kelebihan/kekurangan hasil pemetaan</li>
+                                                <li>Latihan formulasi pertanyaan pada AI</li>
+                                                <li>Pengayaan teknik bertanya</li>
+                                            </ul>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Luaran</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ul>
+                                        <li>Draft peta konsep teks</li>
+                                        <li>Protokol bertanya pada AI</li>
+                                        <li>Catatan reflektif</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pertemuan 3 -->
+            <div class="main-accordion-item">
+                <div class="main-accordion-header">Pertemuan 3: Pembacaan Mendalam (2 x 60 menit)</div>
+                <div class="main-accordion-content">
+                    <div class="nested-accordion">
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Tujuan</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ul>
+                                        <li>Memperdalam pemahaman konsep</li>
+                                        <li>Mengembangkan kemampuan analisis kritis</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Agenda</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ol>
+                                        <li>
+                                            <strong>Eksplorasi Konseptual (60 menit)</strong>
+                                            <ul>
+                                                <li>Mahasiswa mengajukan pertanyaan mendalam berdasarkan peta konsep</li>
+                                                <li>Mentor mendampingi proses tanya-jawab</li>
+                                                <li>Interaksi dengan AI untuk eksplorasi konsep</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <strong>Analisis Komparatif (60 menit)</strong>
+                                            <ul>
+                                                <li>Membandingkan perspektif berbeda dalam teks</li>
+                                                <li>Identifikasi kerangka teoretis</li>
+                                                <li>Diskusi implikasi konseptual</li>
+                                            </ul>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Luaran</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ul>
+                                        <li>Catatan Analisis Mendalam</li>
+                                        <li>Matriks pendalaman dan perbandingan konsep</li>
+                                        <li>Pertanyaan-pertanyaan kritis yang berkembang</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pertemuan 4 -->
+            <div class="main-accordion-item">
+                <div class="main-accordion-header">Pertemuan 4: Sintesis Konseptual (2 x 60 menit)</div>
+                <div class="main-accordion-content">
+                    <div class="nested-accordion">
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Tujuan</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ul>
+                                        <li>Mengintegrasikan pemahaman</li>
+                                        <li>Menghubungkan dengan konteks penelitian individual</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Agenda</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ol>
+                                        <li>
+                                            <strong>Sintesis Personal (60 menit)</strong>
+                                            <ul>
+                                                <li>Setiap peserta menyusun kerangka sintesis</li>
+                                                <li>Mentor membantu mengaitkan dengan rencana tugas/penelitian peserta</li>
+                                                <li>Verifikasi dengan AI</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <strong>Presentasi Awal Sintesis (60 menit)</strong>
+                                            <ul>
+                                                <li>Setiap peserta mempresentasikan sintesis</li>
+                                                <li>Diskusi bersama</li>
+                                                <li>Masukan dari mentor</li>
+                                            </ul>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Luaran</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ul>
+                                        <li>Draft sintesis konseptual teks</li>
+                                        <li>Kerangka hubungan dengan tugas/penelitian</li>
+                                        <li>Catatan pengembangan</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pertemuan 5 -->
+            <div class="main-accordion-item">
+                <div class="main-accordion-header">Pertemuan 5: Evaluasi dan Rencana Tindak Lanjut (2 x 60 menit)</div>
+                <div class="main-accordion-content">
+                    <div class="nested-accordion">
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Tujuan</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ul>
+                                        <li>Refleksi proses keseluruhan</li>
+                                        <li>Pengembangan strategi personal</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Agenda</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ol>
+                                        <li>
+                                            <strong>Refleksi Kolektif (60 menit)</strong>
+                                            <ul>
+                                                <li>Diskusi pengalaman dan pembelajaran</li>
+                                                <li>Identifikasi tantangan yang dihadapi</li>
+                                                <li>Berbagi strategi personal</li>
+                                                <li>Diskusi tentang penerapan AI dalam konteks akademik</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <strong>Rencana Tindak Lanjut (60 menit)</strong>
+                                            <ul>
+                                                <li>Penyusunan protokol personal pembacaan akademis berbantuan AI</li>
+                                                <li>Komitmen tindak lanjut pengembangan kemampuan</li>
+                                                <li>Evaluasi format kegiatan</li>
+                                            </ul>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="nested-accordion-item">
+                            <div class="nested-accordion-header">Luaran</div>
+                            <div class="nested-accordion-content">
+                                <div class="content-block">
+                                    <ul>
+                                        <li>Protokol personal literasi akademis berbantuan AI</li>
+                                        <li>Rencana pengembangan kemampuan individual</li>
+                                        <li>Rekomendasi perbaikan kegiatan</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="important-note">
+                        <div class="important-note-title">Catatan</div>
+                        <p>Seluruh pertemuan dirancang dengan pendekatan dialogis dan reflektif, menekankan kolaborasi antara peserta, mentor, dan AI. Setiap sesi didesain untuk meningkatkan keterampilan belajar mandiri (meta-kognitif) yang diperlukan untuk peningkatan kemampuan analisis akademis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sistem accordion utama
+            const mainAccordionItems = document.querySelectorAll('.main-accordion-item');
+            
+            mainAccordionItems.forEach(item => {
+                const header = item.querySelector('.main-accordion-header');
+                
+                header.addEventListener('click', () => {
+                    // Tutup semua item accordion utama lainnya
+                    mainAccordionItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle item yang diklik
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Sistem accordion nested
+            const nestedAccordionItems = document.querySelectorAll('.nested-accordion-item');
+            
+            nestedAccordionItems.forEach(item => {
+                const header = item.querySelector('.nested-accordion-header');
+                
+                header.addEventListener('click', () => {
+                    // Biarkan multiple nested accordion terbuka
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Buka item pertama secara default
+            if (mainAccordionItems.length > 0) {
+                mainAccordionItems[0].classList.add('active');
+            }
+            
+            // Buka nested accordion pertama di setiap main accordion
+            document.querySelectorAll('.nested-accordion').forEach(nestedAcc => {
+                const firstNestedItem = nestedAcc.querySelector('.nested-accordion-item');
+                if (firstNestedItem) {
+                    firstNestedItem.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

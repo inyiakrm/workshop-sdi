@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasar-dasar Pendekatan Literasi Akademik Berbantuan AI</title>
+    <style>
+        /* Variabel CSS untuk warna tema */
+        :root {
+            --argumentative-color: #4a6fa5;
+            --argumentative-light: #d4e0f7;
+            --empirical-color: #5b8c5a;
+            --empirical-light: #d4ebd4;
+            --narrative-color: #a55e4a;
+            --narrative-light: #f7d4d4;
+            --conceptual-color: #8c5a8c;
+            --conceptual-light: #ebd4eb;
+            --header-color: #333;
+            --text-color: #444;
+            --background-color: #f9f9f9;
+            --border-radius: 8px;
+            --transition-speed: 0.3s;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --sidebar-width: 20%;
+            --content-width: 80%;
+        }
+
+        /* Reset dan Dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        .sidebar h2 {
+            color: white;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-nav a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 8px 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-nav .active {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+        }
+
+        /* Nested Navigation */
+        .nav-dropdown {
+            list-style: none;
+            padding-left: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-speed) ease;
+        }
+
+        .nav-dropdown.show {
+            max-height: 1000px;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-toggle {
+            position: absolute;
+            right: 10px;
+            top: 8px;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+        }
+
+        .nav-item.active > .nav-toggle {
+            transform: rotate(90deg);
+        }
+
+        /* Content Styles */
+        .content {
+            width: var(--content-width);
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--header-color);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        /* Container */
+        .intro {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Section Styles */
+        .content-section {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Text Type Specific Colors */
+        .argumentative {
+            border-left: 4px solid var(--argumentative-color);
+        }
+
+        .empirical {
+            border-left: 4px solid var(--empirical-color);
+        }
+
+        .narrative {
+            border-left: 4px solid var(--narrative-color);
+        }
+
+        .conceptual {
+            border-left: 4px solid var(--conceptual-color);
+        }
+
+        /* List Styles */
+        ul, ol {
+            padding-left: 25px;
+            margin-bottom: 10px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        /* Utility Classes */
+        .mb-10 {
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .content {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <h2>Daftar Isi</h2>
+        <ul class="sidebar-nav">
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="intro">Pengantar</a>
+            </li>
+            
+            <!-- Filosofi -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="filosofi">FILOSOFI</a>
+            </li>
+            
+            <!-- Prinsip Interaksi -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="prinsip-interaksi">PRINSIP INTERAKSI</a>
+                <span class="nav-toggle">›</span>
+                <ul class="nav-dropdown">
+                    <li><a href="#" class="nav-link" data-section="cara-kerja-ai">Cara Kerja AI</a></li>
+                    <li><a href="#" class="nav-link" data-section="cara-kerja-manusia">Cara Kerja Manusia</a></li>
+                    <li><a href="#" class="nav-link" data-section="interaksi-produktif">Interaksi Produktif Manusia-AI</a></li>
+                </ul>
+            </li>
+
+            <!-- Prinsip Etis -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="prinsip-etis">PRINSIP ETIS</a>
+            </li>
+            
+            <!-- Prinsip Praktik -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="prinsip-praktik">PRINSIP PRAKTIK</a>
+                <span class="nav-toggle">›</span>
+                <ul class="nav-dropdown">
+                    <li><a href="#" class="nav-link" data-section="praktik-fasilitator">Praktik Fasilitator</a></li>
+                    <li><a href="#" class="nav-link" data-section="praktik-peserta">Praktik Peserta</a></li>
+                    <li><a href="#" class="nav-link" data-section="praktik-bertanya">Praktik Bertanya</a></li>
+                </ul>
+            </li>
+            
+            <!-- Keperluan Teknis -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="keperluan-teknis">KEPERLUAN TEKNIS</a>
+                <span class="nav-toggle">›</span>
+                <ul class="nav-dropdown">
+                    <li><a href="#" class="nav-link" data-section="perangkat-keras">Perangkat Keras</a></li>
+                    <li><a href="#" class="nav-link" data-section="perangkat-lunak">Perangkat Lunak</a></li>
+                </ul>
+            </li>
+            
+            <!-- Alur Praktik -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="alur-praktik">ALUR PRAKTIK</a>
+            </li>
+            
+            <!-- Praktik Pembacaan -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="pendekatan-pembacaan">PENDEKATAN PEMBACAAN</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>DASAR-DASAR PENDEKATAN LITERASI AKADEMIK BERBANTUAN AI</h1>
+        
+        <!-- Intro Section -->
+        <div class="content-section active" id="intro">
+            <div class="intro">
+                <p>Perkembangan artificial intelligence (AI) telah membuka dimensi baru dalam cara kita membaca dan memahami teks akademik. Berbeda dengan pendekatan pembacaan konvensional, membaca berbantuan AI melibatkan kolaborasi dinamis antara kemampuan berpikir manusia dan kemampuan analitis AI. Panduan ini menawarkan pendekatan integratif yang menggabungkan strategi membaca tradisional dengan pemanfaatan AI secara strategis untuk mencapai pemahaman yang lebih mendalam, rinci, efisien, dan komprehensif.</p>
+            </div>
+        </div>
+
+        <!-- Filosofi -->
+        <div class="content-section argumentative" id="filosofi">
+            <h2>FILOSOFI DASAR</h2>
+            <ul>
+                <li>Kunci dari kerjasama manusia dengan AI untuk peningkatan kemampuan akademik adalah tetap kemampuan membaca.</li>
+                <li>Tinggi atau rendahnya kemampuan membaca seseorang pada dasarnya ditentukan oleh kemampuannya bertanya/mempertanyakan.</li>
+                <li>Membaca dan bertanya adalah cara mendapatkan pemahaman atas informasi yang diberikan AI.</li>
+                <li>Jika tidak, AI sebagai mesin justru akan mengubah pikiran manusia menjadi tempat penyimpanan informasi (<i>storage</i>).</li>
+            </ul>
+        </div>
+        
+        <!-- Prinsip Interaksi -->
+        <div class="content-section empirical" id="prinsip-interaksi">
+            <h2>Membaca dengan AI adalah membaca menggunakan mesin yang tak lain adalah buatan manusia.</h2>
+        </div>
+
+        <!-- Cara Kerja AI -->
+        <div class="content-section empirical" id="cara-kerja-ai">
+            <h3>Cara Kerja AI</h3>
+            <p><strong>Beda Maha Pintar dengan Sok Tahu hanya Setipis Kulit Bawang</strong></p>
+            <ul>
+                <li>AI jadi sangat pintar, tahu segala, karena LLM (Large Language Model) dan Knowledge Graph (KG) yang jadi "otaknya." LLM adalah kumpulan triliunan data yang selama ini beredar di internet dan kemudian diolah berdasarkan KG sehingga bisa menjawab apa pun pertanyaan.</li>
+                <li>Setiap pertanyaan dijawab AI dengan mekanisme "kemiripan" pola pertanyaan dengan pola yang dia temukan di Data Besar. Data Besar yang tersedia di internet tidak semua terverifikasi. Karena itu, terbukalah potensi sok tahu atau halusinasi</li>
+                <li>Khusus AI yang diberi makan data dari microsite seperti medsos, dia tidak hanya rentan halusinasi, tapi juga poisoning informasi. Informasi di medsos direkayasa, sehinga hasil rekayasaan itu yang dimakan AI.</li>
+            </ul>
+        </div>
+
+        <!-- Cara Kerja Manusia -->
+        <div class="content-section empirical" id="cara-kerja-manusia">
+            <h3>Cara Kerja Manusia</h3>
+            <ul>
+                <li>Manusia memakai Ai sebagai mesin/alat untuk membantu menjawab pertanyaan. Dia diprogram untuk ikut maunya manusia. Secara fungsional dia akan menjawab apa pun pertanyaan, sebab jawaban lah yang akan <strong>memuaskan manusia.</strong></li>
+                <li>Ketika dia tidak punya jawaban yang pasti, dia mulai "ngarang/halu", asal jawab. AI kadang bersikap seperti bawahan yang ABS (asal bapak senang).</li>
+                <li>Pola default di atas secara psikologis terasa nikmat bagi manusia. Akibatnya, manusia bisa mengalami affirmative addiction (kecanduan mendapat iya dari AI).</li>
+                <li>Karena itu, AI semakin ditanya, semakin dia memberi jawaban. Manusialah yang bertanggung jawab menghentikan pertanyaan <strong>untuk sementara waktu</strong> saat sudah merasa cukup.</li>
+            </ul>
+        </div>
+
+        <!-- Interaksi Produktif Manusia-AI -->
+        <div class="content-section empirical" id="interaksi-produktif">
+            <h3>Cara Berhubungan dengan AI agar Produktif</h3>
+            <ul>
+                <li>Kalau anda tidak mengerti, tanya terus sampai anda mengerti. Tidak peduli jika yang anda tidak mengerti adalah sebuah kata sederhana. <strong>Jangan sungkan. AI bukan manusia. Dia tidak bisa berubah jadi guru yang melecehkan dan merendahkan murid, kecuali jika diminta.</strong></li>
+                <li>Berhentilah bertanya dan cobalah menyimpulkan jika anda merasa pertanyaan anda telah terjawab.</li>
+                <li>Pindah pada pertanyaan lain, temukan pemahaman baru</li>
+                <li>Hubungkan pemahaman satu dengan pemahaman yang lain (lakukan sintesis). Lalu uji sintesis ini dengan bertanya lagi pada AI. <strong>Begitu seterusnya!</strong></li>
+            </ul>
+        </div>
+
+        <!-- Prinsip Etis -->
+        <div class="content-section empirical" id="prinsip-etis">
+            <h2>PRINSIP ETIS: Kejujuran dan kerendahhatian adalah di atas segala-galanya </h2>
+            <p>AI adalah alat bantu, dia bagai kaca pembesar atau kacamata yang dipakai ketika membaca. <strong>AI bukan joki ujian</strong></p>
+            <ul>
+                <li>Memakai kacamata/kaca pembesar untuk membaca tidaklah memalukan. Yang memalukan adalah memakai jasa joki untuk ujian.</li>
+                <li>Tetaplah sadar bahwa AI bisa halu dan menyesatkan. Dia tidak sempurna, karena yang membuatnya adalah manusia.</li>
+                <li>Selalu uji dan pertanyakan jawaban-jawaban penting AI</li>
+                <li>Jangan sekali-sekali percaya pujian yang dilontarkan AI. Jangan tergoda rayuan mesin</li>
+            </ul>
+        </div>
+
+        <!-- Prinsip Praktik -->
+        <div class="content-section narrative" id="prinsip-praktik">
+            <h2>PRINSIP PRAKTIK</h2>
+            <p>Jalannya workshop ini dirancang dengan prinsip: <strong>Fasilitator tidak berperan penyampai pengetahuan. Fasilitator adalah pelindung dan pengelola ruang tempat tumbuhnya pemahaman dan makna. Bahasa tanya-tanya jawab (dialog) adalah alat utamanya.</strong></p>
+        </div>
+
+        <!-- Praktik Fasilitator -->
+        <div class="content-section narrative" id="praktik-fasilitator">
+            <h3>Tugas Fasilitator</h3>
+            <p>Karena fasilitator bukan nabi penyampai pengetahuan, maka tugasnya dalam workshop ini adalah:</p>
+            <ul>
+                <li>Memberitahukan teknik dan prinsip-prinsipnya. Itupun sebatas yang diketahui dan telah dipraktikkannya.</li>
+                <li>Membantu menavigasi pertanyaan-pertanyaan yang akan diajukan peserta pada AI</li>
+                <li>Membantu peserta melakukan sintesis gagasan. Membantu menemukan hubungan satu gagasan dengan yang lain</li>
+                <li>Semua itu hanya bisa dilakukan fasilitator jika dia menyimak dengan seksama tanya-jawab peserta dengan AI</li>
+            </ul>
+        </div>
+
+        <!-- Praktik Peserta -->
+        <div class="content-section narrative" id="praktik-peserta">
+            <h3>Tugas Peserta</h3>
+            <p>Karena peserta adalah "tanah" tempat akan tumbuhnya pemahaman dan makna, maka tugasnya adalah:</p>
+            <ul>
+                <li>Memiliki teks dan kepentingan tertentu terhadap teks itu. Apa yang akan dicari tahu/dipahami dari teks tersebut. <strong>Intinya peserta harus punya pertanyaan mendasar terkait teks.</strong></li>
+                <li>Memahami pertanyaan panduan (<i>prompting</i> dasar) yang ditawarkan fasilitator. <strong>Dan mencatatnya.</strong></li>
+                <li>Mampu membahasakan pertanyaan panduan tersebut ke dalam bahasa tulis dan memberikannya pada AI</li>
+                <li>Membaca dan memahami jawaban AI serta mendiskusikan pemahaman itu dengan fasilitator jika diperlukan.</li>
+                <li>Menemukan pertanyaan lanjutan kepada AI berdasarkan pemahaman atas jawaban AI sebelumnya. Pertanyaan ini bisa ditemukan sendiri maupun bersama dengan fasilitator.</li>
+                <li><stong>Proses seperti ini bersifat iteratif (berulang), seperti halnya proses belajar pada umumnya.</stong></li>
+            </ul>
+            <p>Proses tanya-jawab iteratif dengan AI ini dipandu dan ditentukan oleh kepentingan peserta terhadap teks. Kepentingan ini menjadi kerangka besar</p>
+            <p><strong>Inti workshop ini adalah menawarkan 3 pendekatan dasar untuk menunaikan kepentingan itu.</strong></p>
+        </div>
+
+        <!-- Praktik Bertanya -->
+        <div class="content-section narrative" id="praktik-bertanya">
+            <h3>Cara Bertanya</h3>
+            <ul>
+                <li>Persiapkan teks sesuai dengan kriteria teknis yang sesuai</li>
+                <li>Batasi dan kontrol AI dengan perintah di awal. Misal: Jangan merespon berdasarkan data dan informasi di luar teks.</li>
+                <li>Selalu beri konteks atau latar belakang untuk setiap pertanyaan.</li>
+                <li>Berikan bertanyaan secara terstruktur dan sistematis.</li>
+                <li>Selalu catat, baik pertanyaan maupun jawaban.</li>
+            </ul>
+        </div>
+
+        <!-- Keperluan Teknis -->
+        <div class="content-section conceptual" id="keperluan-teknis">
+            <h2>KEPERLUAN TEKNIS</h2>
+            <p>Pada prinsipnya tidak ada kebutuhan teknis khusus dalam pemakaian AI. Alasannya, AI sebagai platform komersial sudah begitu massif sebagaimana halnya medsos. AI dapat dipakai sambil tiduran atau jongkok di kamar mandi. Tapi agar tujuan peningkatan literasi akademik berbantuan AI bisa tercapai, maka ada aspek teknis yang perlu diperhatikan. </p>
+        </div>
+
+        <!-- Perangkat Keras -->
+        <div class="content-section conceptual" id="perangkat-keras">
+            <h3>Perangkat Keras</h3>
+            <ul>
+                <li>Laptop atau desktop. Bisa juga tablet selama layar cukup lebar untuk navigasi multitasking</li>
+                <li>Mouse jika diperlukan untuk memudahkan navigasi multitasking</li>
+                <li>Koneksi internet yang stabil</li>
+                <li>Output dan input audio yang baik</li>
+            </ul>
+        </div>
+
+        <!-- Perangkat Lunak -->
+        <div class="content-section conceptual" id="perangkat-lunak">
+            <h3>Perangkat Lunak</h3>
+            <ul>
+                <li>Akun-akun AI yang bisa dipakai</li>
+                <li>Zoom</li>
+                <li>Platform pengolah text, diutamakan yang bisa membaca teks markup sederhana seperti Marktext dan Macdown</li>
+            </ul>
+        </div>
+
+        <!-- Alur Praktik -->
+        <div class="content-section" id="alur-praktik">
+            <h2>GAMBARAN UMUM ALUR PEMBACAAN</h2>
+            <ul>
+                <li>Pengantar Pendekatan Pembacaan dan Prinsip Pertanyaan Panduan (30 menit)</li>
+                <li>Praktik Mandiri Peserta (10 menit)</li>
+                <li>Pembahasan Hasil Praktik Mandiri (30 menit)</li>
+                <li>Praktik Mandiri (10 menit)</li>
+                <li>Pembahasan dan Tanya-jawab dengan Fasilitator (30 menit)</li>
+                <li>Penyimpulan Sesi (10 menit)</li>
+            </ul>
+        </div>
+
+        <!-- Pendekatan Pembacaan -->
+        <div class="content-section" id="pendekatan-pembacaan">
+            <h2>PENDEKATAN PEMBACAAN</h2>
+            <p>[Tempatkan konten praktik pembacaan dari template di sini]</p>
+        </div>
+
+        <div class="footer">
+            <p>©2025 Surau Digital Inyiak</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup dropdown navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                const toggle = item.querySelector('.nav-toggle');
+                if (toggle) {
+                    toggle.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        item.classList.toggle('active');
+                        const dropdown = item.querySelector('.nav-dropdown');
+                        if (item.classList.contains('active')) {
+                            dropdown.classList.add('show');
+                        } else {
+                            dropdown.classList.remove('show');
+                        }
+                    });
+                }
+            });
+
+            // Setup navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    navLinks.forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Hide all content sections
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show the selected content section
+                    const sectionId = this.getAttribute('data-section');
+                    document.getElementById(sectionId).classList.add('active');
+                    
+                    // Scroll to top of content
+                    document.querySelector('.content').scrollTo(0, 0);
+                });
+            });
+
+            // Activate the first link by default
+            if (navLinks.length > 0) {
+                navLinks[0].click();
+            }
+        });
+    </script>
+</body>
+</html>

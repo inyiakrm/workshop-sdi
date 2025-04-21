@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenis-Jenis Teks Akademik</title>
+    <style>
+        /* Variabel CSS untuk warna tema */
+        :root {
+            --argumentative-color: #4a6fa5;
+            --argumentative-light: #d4e0f7;
+            --empirical-color: #5b8c5a;
+            --empirical-light: #d4ebd4;
+            --narrative-color: #a55e4a;
+            --narrative-light: #f7d4d4;
+            --conceptual-color: #8c5a8c;
+            --conceptual-light: #ebd4eb;
+            --header-color: #333;
+            --text-color: #444;
+            --background-color: #f9f9f9;
+            --border-radius: 8px;
+            --transition-speed: 0.3s;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --sidebar-width: 20%;
+            --content-width: 80%;
+        }
+
+        /* Reset dan Dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        .sidebar h2 {
+            color: white;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-nav a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 8px 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-nav .active {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+        }
+
+        /* Nested Navigation */
+        .nav-dropdown {
+            list-style: none;
+            padding-left: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-speed) ease;
+        }
+
+        .nav-dropdown.show {
+            max-height: 1000px;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-toggle {
+            position: absolute;
+            right: 10px;
+            top: 8px;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+        }
+
+        .nav-item.active > .nav-toggle {
+            transform: rotate(90deg);
+        }
+
+        /* Content Styles */
+        .content {
+            width: var(--content-width);
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--header-color);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        /* Container */
+        .intro {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Section Styles */
+        .content-section {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Text Type Specific Colors */
+        .argumentative {
+            border-left: 4px solid var(--argumentative-color);
+        }
+
+        .empirical {
+            border-left: 4px solid var(--empirical-color);
+        }
+
+        .narrative {
+            border-left: 4px solid var(--narrative-color);
+        }
+
+        .conceptual {
+            border-left: 4px solid var(--conceptual-color);
+        }
+
+        /* List Styles */
+        ul, ol {
+            padding-left: 25px;
+            margin-bottom: 10px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        /* Utility Classes */
+        .mb-10 {
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .content {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <h2>Daftar Isi</h2>
+        <ul class="sidebar-nav">
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="intro">Pengantar</a>
+            </li>
+            
+            <!-- Teks Argumentatif-Analitis -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="argumentative">Teks Argumentatif-Analitis</a>
+                <span class="nav-toggle">›</span>
+                <ul class="nav-dropdown">
+                    <li><a href="#" class="nav-link" data-section="argumentative-char">Karakteristik Utama</a></li>
+                    <li><a href="#" class="nav-link" data-section="argumentative-examples">Contoh</a></li>
+                    <li><a href="#" class="nav-link" data-section="argumentative-strategies">Strategi Membaca</a></li>
+                </ul>
+            </li>
+            
+            <!-- Teks Empiris -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="empirical">Teks Empiris</a>
+                <span class="nav-toggle">›</span>
+                <ul class="nav-dropdown">
+                    <li><a href="#" class="nav-link" data-section="empirical-char">Karakteristik Utama</a></li>
+                    <li><a href="#" class="nav-link" data-section="empirical-examples">Contoh</a></li>
+                    <li><a href="#" class="nav-link" data-section="empirical-strategies">Strategi Membaca</a></li>
+                </ul>
+            </li>
+            
+            <!-- Teks Naratif-Historis -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="narrative">Teks Naratif-Historis</a>
+                <span class="nav-toggle">›</span>
+                <ul class="nav-dropdown">
+                    <li><a href="#" class="nav-link" data-section="narrative-char">Karakteristik Utama</a></li>
+                    <li><a href="#" class="nav-link" data-section="narrative-examples">Contoh</a></li>
+                    <li><a href="#" class="nav-link" data-section="narrative-strategies">Strategi Membaca</a></li>
+                </ul>
+            </li>
+            
+            <!-- Teks Konseptual-Filosofis -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="conceptual">Teks Konseptual-Filosofis</a>
+                <span class="nav-toggle">›</span>
+                <ul class="nav-dropdown">
+                    <li><a href="#" class="nav-link" data-section="conceptual-char">Karakteristik Utama</a></li>
+                    <li><a href="#" class="nav-link" data-section="conceptual-examples">Contoh</a></li>
+                    <li><a href="#" class="nav-link" data-section="conceptual-strategies">Strategi Membaca</a></li>
+                </ul>
+            </li>
+            
+            <!-- Keterkaitan Antar Jenis Teks -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="interconnection">Keterkaitan Antar Jenis Teks</a>
+            </li>
+            
+            <!-- Pendekatan Membaca dengan AI -->
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-section="ai-approach">Pendekatan Membaca dengan AI</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Jenis-Jenis Teks Akademik</h1>
+        
+        <!-- Intro Section -->
+        <div class="content-section active" id="intro">
+            <div class="intro">
+                <p>Dalam dunia akademik, teks dapat dikategorikan ke dalam beberapa jenis berdasarkan tujuan, struktur, dan pendekatan penulisannya. Pemahaman tentang berbagai jenis teks ini sangat penting untuk mengembangkan strategi pembacaan yang efektif. Visualisasi interaktif di bawah ini menjelaskan empat jenis utama teks akademik beserta karakteristik, contoh, dan strategi membacanya.</p>
+                <p>Gunakan menu di sebelah kiri untuk menavigasi konten.</p>
+            </div>
+        </div>
+
+        <!-- Teks Argumentatif-Analitis -->
+        <div class="content-section argumentative" id="argumentative">
+            <p class="mb-10">Teks argumentatif-analitis adalah karya tulis yang bertujuan untuk mempertahankan suatu posisi atau klaim melalui penalaran logis dan bukti yang sistematis. Jenis teks ini mengembangkan argumen dengan cara yang terstruktur, dimulai dari premis dan bergerak menuju kesimpulan melalui langkah-langkah logis.</p>
+            
+        </div>
+
+        <div class="content-section argumentative" id="argumentative-char">
+            <h2>Karakteristik Utama</h2>
+            <ul>
+                <li><strong>Tesis yang jelas dan tegas</strong> - Pernyataan posisi atau klaim utama yang akan dipertahankan</li>
+                <li><strong>Argumen terstruktur dan sistematis</strong> - Pengembangan penalaran logis yang mendukung tesis</li>
+                <li><strong>Bukti dan penalaran logis</strong> - Penggunaan data, contoh, atau kutipan yang memperkuat argumen</li>
+                <li><strong>Antisipasi kontra-argumen</strong> - Mengidentifikasi dan menangani keberatan potensial</li>
+                <li><strong>Bahasa presisi</strong> - Penggunaan terminologi yang tepat dan jelas</li>
+                <li><strong>Kesimpulan yang memperkuat tesis</strong> - Merangkum argumen dan menegaskan kembali posisi</li>
+            </ul>
+        </div>
+
+        <div class="content-section argumentative" id="argumentative-examples">
+            <h2>Contoh</h2>
+            <div class="mb-10">
+                <h3>Artikel Jurnal Kebijakan Publik</h3>
+                <p>Artikel yang berargumen bahwa sistem transportasi umum yang terjangkau dapat mengurangi kesenjangan sosial di perkotaan, dengan menganalisis data dari berbagai kota dan bukti dari penelitian sebelumnya.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Esai Kritik Sastra</h3>
+                <p>Esai yang menganalisis novel "Bumi Manusia" karya Pramoedya Ananta Toer, dengan berargumen bahwa karya tersebut merupakan kritik terhadap kolonialisme yang dikonstruksi melalui perjalanan karakter utama, menggunakan teks dan konteks historis sebagai bukti.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Makalah Filosofis</h3>
+                <p>Makalah yang mempertahankan posisi bahwa kebebasan berekspresi memiliki batasan moral, dengan menganalisis konflik antara hak individu dan kebaikan bersama menggunakan kerangka etika deontologis dan konsekuensialis.</p>
+            </div>
+        </div>
+
+        <div class="content-section argumentative" id="argumentative-strategies">
+            <h2>Strategi Membaca</h2>
+            <div class="mb-10">
+                <h3>Identifikasi Tesis Utama</h3>
+                <p>Cari pernyataan tesis di awal teks, biasanya di akhir paragraf pendahuluan. Identifikasi dengan jelas apa yang penulis coba buktikan atau pertahankan. Pertanyakan: Apa klaim utama yang diajukan penulis? Apa posisi yang diambil terhadap topik yang dibahas?</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Telaah Struktur Argumentasi</h3>
+                <p>Identifikasi premis utama dan bagaimana premis tersebut mendukung kesimpulan. Rekonstruksi alur logika dari argumen untuk memahami bagaimana penulis sampai pada kesimpulannya. Perhatikan transisi dan penghubung logis ("karena," "oleh karena itu," "meskipun") yang menunjukkan bagaimana bagian-bagian argumen terhubung.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Evaluasi Bukti</h3>
+                <p>Analisis kualitas dan relevansi bukti yang disajikan. Nilai apakah bukti cukup mendukung klaim yang dibuat. Pertimbangkan kredibilitas sumber, metodologi penelitian (jika ada), dan apakah bukti tersebut representatif atau selektif. Identifikasi apakah ada bukti yang bertentangan yang tidak dibahas.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Identifikasi Asumsi Tersembunyi</h3>
+                <p>Cari asumsi implisit yang mendasari argumen tetapi tidak dinyatakan secara eksplisit. Tanyakan: Apa yang harus benar agar argumen ini masuk akal? Nilai apakah asumsi-asumsi tersebut dapat dipertahankan. Perhatikan nilai-nilai dan kerangka teoretis yang diterima begitu saja oleh penulis.</p>
+            </div>
+        </div>
+
+        <!-- Teks Empiris -->
+        <div class="content-section empirical" id="empirical">
+            <p class="mb-10">Teks empiris adalah karya tulis yang didasarkan pada observasi, eksperimen, atau pengumpulan data sistematis. Jenis teks ini melaporkan penelitian yang dilakukan untuk menjawab pertanyaan spesifik atau menguji hipotesis melalui metodologi ilmiah.</p>
+        </div>
+
+        <div class="content-section empirical" id="empirical-char">
+            <h2>Karakteristik Utama</h2>
+            <ul>
+                <li><strong>Pertanyaan/hipotesis yang jelas</strong> - Rumusan spesifik tentang apa yang ingin dijawab</li>
+                <li><strong>Metodologi penelitian terinci</strong> - Penjelasan tentang cara data dikumpulkan dan dianalisis</li>
+                <li><strong>Data kuantitatif dan/atau kualitatif</strong> - Informasi yang diperoleh melalui observasi atau pengukuran</li>
+                <li><strong>Analisis sistematis</strong> - Pengolahan data menggunakan metode yang terstruktur</li>
+                <li><strong>Pembahasan temuan</strong> - Interpretasi hasil dan implikasinya</li>
+                <li><strong>Diskusi keterbatasan</strong> - Pengakuan terhadap batasan metodologi dan generalisabilitas</li>
+            </ul>
+        </div>
+
+        <div class="content-section empirical" id="empirical-examples">
+            <h2>Contoh</h2>
+            <div class="mb-10">
+                <h3>Studi Kasus Organisasi</h3>
+                <p>Studi yang mengamati bagaimana sebuah perusahaan tradisional berhasil beradaptasi dengan era digital, menggunakan wawancara dengan karyawan, analisis dokumen, dan data kinerja sebagai bukti.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Penelitian Survei</h3>
+                <p>Penelitian tentang sikap masyarakat terhadap kebijakan lingkungan, yang mengumpulkan data dari responden dengan latar belakang berbeda dan menganalisis faktor-faktor yang memengaruhi dukungan terhadap inisiatif keberlanjutan.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Studi Etnografis</h3>
+                <p>Studi tentang praktik budaya dalam komunitas urban, yang mendeskripsikan dan menganalisis bagaimana identitas kolektif terbentuk melalui ritual sehari-hari dan penggunaan ruang publik.</p>
+            </div>
+        </div>
+
+        <div class="content-section empirical" id="empirical-strategies">
+            <h2>Strategi Membaca</h2>
+            <div class="mb-10">
+                <h3>Analisis Desain Penelitian</h3>
+                <p>Identifikasi pertanyaan atau hipotesis penelitian dan nilai seberapa jelas dirumuskan. Analisis kesesuaian metodologi dengan pertanyaan yang diajukan. Perhatikan variabel yang diukur atau fenomena yang diamati. Evaluasi apakah desain penelitian (eksperimental, korelasional, deskriptif) sesuai untuk menjawab pertanyaan yang diajukan.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Evaluasi Kritis Data</h3>
+                <p>Periksa bagaimana data dikumpulkan dan dianalisis. Nilai ukuran dan representativitas sampel. Evaluasi validitas dan reliabilitas instrumen pengukuran. Pertanyakan apakah metode analisis statistik atau kualitatif yang digunakan tepat. Identifikasi potensi bias dalam pengumpulan atau interpretasi data.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Pemeriksaan Validitas Kesimpulan</h3>
+                <p>Evaluasi apakah kesimpulan yang ditarik benar-benar didukung oleh data yang disajikan. Perhatikan apakah penulis membedakan dengan jelas antara hasil faktual dan interpretasi. Pertimbangkan penjelasan alternatif yang mungkin untuk temuan yang sama. Nilai apakah penulis mengakui keterbatasan penelitian dengan jujur.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Analisis Generalisabilitas</h3>
+                <p>Pertimbangkan sejauh mana temuan dapat digeneralisasikan ke populasi atau konteks yang lebih luas. Perhatikan karakteristik spesifik sampel dan setting penelitian. Nilai apakah klaim generalisasi yang dibuat oleh penulis didukung secara memadai. Bandingkan temuan dengan hasil penelitian serupa di bidang tersebut.</p>
+            </div>
+        </div>
+
+        <!-- Teks Naratif-Historis -->
+        <div class="content-section narrative" id="narrative">
+            <p class="mb-10">Teks naratif-historis adalah karya tulis yang menyajikan dan menginterpretasikan peristiwa, perkembangan, atau proses yang terjadi sepanjang waktu. Jenis teks ini tidak sekadar menceritakan "apa yang terjadi" secara kronologis, tetapi juga menganalisis mengapa dan bagaimana peristiwa terjadi, serta dampaknya.</p>
+        </div>
+
+        <div class="content-section narrative" id="narrative-char">
+            <h2>Karakteristik Utama</h2>
+            <ul>
+                <li><strong>Fokus temporal dan spasial</strong> - Konteks waktu dan tempat yang jelas</li>
+                <li><strong>Struktur kronologis/tematik</strong> - Pengorganisasian berdasarkan urutan waktu atau tema</li>
+                <li><strong>Hubungan kausal antar peristiwa</strong> - Penjelasan mengenai sebab-akibat</li>
+                <li><strong>Interpretasi signifikansi</strong> - Pemaknaan terhadap peristiwa dalam konteks lebih luas</li>
+                <li><strong>Perspektif historiografis</strong> - Pendekatan dalam menafsirkan sejarah</li>
+                <li><strong>Penggunaan sumber primer/sekunder</strong> - Bukti dari dokumen asli atau interpretasi sejarawan lain</li>
+            </ul>
+        </div>
+
+        <div class="content-section narrative" id="narrative-examples">
+            <h2>Contoh</h2>
+            <div class="mb-10">
+                <h3>Sejarah Perkembangan Demokrasi</h3>
+                <p>Studi tentang perkembangan demokrasi di Asia Tenggara yang menganalisis bagaimana faktor-faktor seperti warisan kolonial, perang dingin, dan gerakan sosial membentuk institusi politik di berbagai negara sejak kemerdekaan hingga kini.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Kajian Biografi Intelektual</h3>
+                <p>Kajian yang menelusuri evolusi pemikiran seorang tokoh seperti Soekarno, menganalisis bagaimana pengalaman pribadi, konteks politik, dan pengaruh intelektual membentuk pandangan kebangsaannya.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Sejarah Teknologi Komunikasi</h3>
+                <p>Narasi yang memaparkan perkembangan dari telegram hingga media sosial, menganalisis bagaimana setiap inovasi memengaruhi pola komunikasi masyarakat dan implikasinya bagi kehidupan sosial dan politik.</p>
+            </div>
+        </div>
+
+        <div class="content-section narrative" id="narrative-strategies">
+            <h2>Strategi Membaca</h2>
+            <div class="mb-10">
+                <h3>Pemetaan Kerangka Kronologis</h3>
+                <p>Identifikasi periode waktu dan ruang geografis yang menjadi fokus teks. Buat garis waktu mental atau fisik dari peristiwa-peristiwa kunci yang dibahas. Perhatikan bagaimana penulis membagi sejarah menjadi periode atau fase tertentu. Identifikasi momen-momen penting atau titik balik dalam narasi historis.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Analisis Perspektif Historiografis</h3>
+                <p>Identifikasi pendekatan historiografis yang digunakan (misalnya sejarah sosial, politik, ekonomi, intelektual, atau budaya). Perhatikan perspektif dan posisi penulis terhadap peristiwa yang dinarasikan. Analisis suara atau perspektif yang dominan versus yang marginal dalam narasi. Pertimbangkan bagaimana konteks produksi teks (tahun penulisan, latar belakang penulis) memengaruhi interpretasi.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Identifikasi Pola Kausalitas</h3>
+                <p>Perhatikan bagaimana penulis menjelaskan sebab-akibat dalam peristiwa historis. Analisis penekanan relatif pada faktor struktural (ekonomi, sosial, politik) versus agensi individu. Identifikasi konteks dan kondisi yang dianggap signifikan dalam memengaruhi perkembangan historis. Perhatikan bagaimana penulis membahas elemen kontinuitas dan perubahan sepanjang waktu.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Evaluasi Penggunaan Sumber</h3>
+                <p>Perhatikan jenis sumber yang digunakan (primer, sekunder, tersier) dan bagaimana sumber tersebut diinterpretasikan. Nilai kekritisan penulis terhadap sumber-sumber yang digunakan. Identifikasi kesenjangan potensial dalam basis sumber dan dampaknya pada interpretasi. Pertimbangkan sumber-sumber alternatif yang mungkin memberikan perspektif berbeda.</p>
+            </div>
+        </div>
+
+        <!-- Teks Konseptual-Filosofis -->
+        <div class="content-section conceptual" id="conceptual">
+            <p class="mb-10">Teks konseptual-filosofis adalah karya tulis yang mengeksplorasi, menganalisis, dan mengembangkan ide-ide abstrak, konsep, atau pertanyaan fundamental. Jenis teks ini berusaha untuk memperjelas, mengkritik, atau mereformulasi pemahaman kita tentang konsep-konsep kunci yang mendasari berbagai bidang pengetahuan.</p>
+        </div>
+
+        <div class="content-section conceptual" id="conceptual-char">
+            <h2>Karakteristik Utama</h2>
+            <ul>
+                <li><strong>Eksplorasi ide abstrak</strong> - Pembahasan konsep-konsep fundamental</li>
+                <li><strong>Analisis makna dan implikasi</strong> - Pengkajian mendalam tentang arti dan konsekuensi</li>
+                <li><strong>Pengembangan kerangka konseptual</strong> - Struktur pemahaman untuk menafsirkan fenomena</li>
+                <li><strong>Penalaran filosofis</strong> - Pendekatan analitis dan reflektif terhadap pertanyaan</li>
+                <li><strong>Dialog dengan pemikiran sebelumnya</strong> - Interaksi dengan tradisi filosofis yang ada</li>
+                <li><strong>Artikulasi posisi ontologis/epistemologis</strong> - Pandangan tentang realitas dan pengetahuan</li>
+            </ul>
+        </div>
+
+        <div class="content-section conceptual" id="conceptual-examples">
+            <h2>Contoh</h2>
+            <div class="mb-10">
+                <h3>Esai tentang Konsep Keadilan</h3>
+                <p>Esai filosofis yang menganalisis berbagai interpretasi keadilan dari perspektif libertarian, egalitarian, dan komunitarian, serta implikasinya bagi desain institusi sosial.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Eksplorasi Konseptual Identitas</h3>
+                <p>Eksplorasi konseptual tentang identitas personal yang mempertanyakan apa yang membuat seseorang tetap menjadi "dirinya" seiring waktu, menganalisis peran memori, tubuh, dan hubungan sosial dalam konstruksi diri.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Analisis Filosofis Etika AI</h3>
+                <p>Analisis filosofis tentang etika kecerdasan buatan yang mengeksplorasi pertanyaan tentang tanggung jawab moral, otonomi, dan nilai-nilai manusia dalam konteks teknologi yang semakin otonom.</p>
+            </div>
+        </div>
+
+        <div class="content-section conceptual" id="conceptual-strategies">
+            <h2>Strategi Membaca</h2>
+            <div class="mb-10">
+                <h3>Klarifikasi Konseptual</h3>
+                <p>Identifikasi konsep-konsep kunci dan bagaimana mereka didefinisikan dalam teks. Perhatikan apakah definisi berbeda dari penggunaan umum atau dalam konteks lain. Telusuri bagaimana konsep berkembang atau dimodifikasi sepanjang teks. Buat glosarium konseptual dengan definisi yang tepat sesuai konteks teks.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Analisis Struktur Argumentasi Filosofis</h3>
+                <p>Identifikasi pertanyaan fundamental yang dibahas dalam teks. Rekonstruksi langkah-langkah penalaran yang digunakan penulis. Perhatikan penggunaan penalaran deduktif (dari prinsip umum ke kasus khusus) versus induktif (dari kasus khusus ke generalisasi). Analisis bagaimana penulis mengembangkan, mendukung, atau menantang posisi filosofis tertentu.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Kontekstualisasi dalam Wacana Filosofis</h3>
+                <p>Identifikasi tradisi filosofis atau kerangka teoretis yang menjadi referensi. Perhatikan dialog eksplisit atau implisit dengan pemikir atau teori sebelumnya. Analisis bagaimana penulis memposisikan argumennya dalam lanskap intelektual yang lebih luas. Identifikasi inovasi konseptual atau perspektif baru yang ditawarkan.</p>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Evaluasi Implikasi</h3>
+                <p>Analisis implikasi teoretis dari posisi yang diambil penulis. Pertimbangkan konsekuensi praktis dari kerangka konseptual yang diusulkan. Identifikasi bagaimana kerangka ini dapat diterapkan pada kasus atau konteks lain. Evaluasi apakah implikasi ini konsisten dengan tujuan atau nilai-nilai yang dinyatakan dalam teks.</p>
+            </div>
+        </div>
+
+        <!-- Keterkaitan Antar Jenis Teks -->
+        <div class="content-section" id="interconnection">
+            <h2>Keterkaitan Antar Jenis Teks</h2>
+            <p>Penting untuk dicatat bahwa dalam praktiknya, banyak teks akademik yang menggabungkan elemen dari berbagai jenis. Beberapa keterkaitan umum meliputi:</p>
+            
+            <ul>
+                <li>Sebuah teks argumentatif-analitis mungkin menggunakan data empiris untuk mendukung klaimnya.</li>
+                <li>Teks empiris seringkali memiliki komponen argumentatif yang kuat dalam bagian diskusi dan implikasinya.</li>
+                <li>Teks naratif-historis mungkin mengincorporasi analisis konseptual tentang ide-ide kunci yang membentuk periode sejarah tertentu.</li>
+                <li>Teks konseptual-filosofis dapat menggunakan contoh historis atau temuan empiris untuk mengilustrasikan poin-poin teoretisnya.</li>
+            </ul>
+            
+            <p>Memahami jenis-jenis teks ini membantu pembaca untuk mengidentifikasi tujuan, struktur, dan asumsi yang mendasari berbagai karya akademik, sehingga dapat mengembangkan strategi pembacaan yang sesuai untuk setiap jenis teks.</p>
+        </div>
+
+        <!-- Pendekatan Membaca dengan AI -->
+        <div class="content-section" id="ai-approach">
+            <h2>Pendekatan Membaca dengan AI</h2>
+            <p>Membaca akademik dengan bantuan AI melibatkan tiga tahap utama yang saling melengkapi:</p>
+            
+            <div class="mb-10">
+                <h3>Pemahaman Struktural</h3>
+                <p>Pada tahap ini, AI membantu pembaca memperoleh gambaran umum tentang struktur, organisasi, dan kerangka konseptual teks. Beberapa strategi meliputi:</p>
+                <ul>
+                    <li>Menggunakan AI untuk mengidentifikasi tesis atau argumen utama</li>
+                    <li>Meminta AI memetakan hubungan antarkonsep kunci</li>
+                    <li>Menggunakan AI untuk menganalisis struktur organisasi teks</li>
+                    <li>Meminta AI mengidentifikasi kerangka teoretis yang digunakan</li>
+                </ul>
+                
+                <p>Contoh prompt untuk AI:</p>
+                <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 5px;">
+Konteks: Analisis struktural [judul teks]
+Tujuan: Memahami kerangka konseptual dan organisasi teks
+Permintaan:
+1. Identifikasi tesis atau argumen utama teks ini
+2. Petakan konsep-konsep kunci dan hubungannya
+3. Analisis struktur organisasi teks (bagian-bagian utama)
+4. Identifikasi kerangka teoretis yang digunakan
+                </pre>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Pembacaan Mendalam</h3>
+                <p>Setelah memahami struktur dasar, tahap ini melibatkan eksplorasi mendalam terhadap aspek-aspek spesifik teks. AI dapat membantu dengan:</p>
+                <ul>
+                    <li>Menjelaskan konsep-konsep kompleks dengan bahasa yang lebih sederhana</li>
+                    <li>Memberikan kontekstualisasi historis atau teoretis</li>
+                    <li>Mengeksplorasi nuansa dan variasi makna dari terminologi kunci</li>
+                    <li>Menganalisis implikasi dari argumen atau temuan</li>
+                </ul>
+                
+                <p>Contoh prompt untuk AI:</p>
+                <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 5px;">
+Konteks: Pembacaan mendalam [judul teks]
+Tujuan: Mengeksplorasi konsep [X] secara mendalam
+Permintaan:
+1. Jelaskan konsep [X] dengan bahasa yang lebih sederhana
+2. Berikan konteks teoretis atau historis untuk konsep ini
+3. Analisis bagaimana konsep ini digunakan dalam teks
+4. Eksplorasi implikasi dari konsep ini untuk argumen keseluruhan
+                </pre>
+            </div>
+            
+            <div class="mb-10">
+                <h3>Analisis Kritis</h3>
+                <p>Tahap tertinggi dalam proses pembacaan, di mana AI membantu pembaca mengembangkan perspektif kritis terhadap teks. Strategi meliputi:</p>
+                <ul>
+                    <li>Evaluasi kekuatan dan kelemahan argumen</li>
+                    <li>Identifikasi asumsi tersembunyi dan bias potensial</li>
+                    <li>Perbandingan dengan perspektif alternatif</li>
+                    <li>Analisis implikasi etis, sosial, atau praktis</li>
+                </ul>
+                
+                <p>Contoh prompt untuk AI:</p>
+                <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 5px;">
+Konteks: Analisis kritis [judul teks]
+Tujuan: Mengembangkan perspektif kritis terhadap argumen teks
+Permintaan:
+1. Evaluasi kekuatan dan kelemahan argumen utama
+2. Identifikasi asumsi tersembunyi yang mendasari argumen
+3. Bandingkan dengan perspektif alternatif dalam bidang ini
+4. Analisis implikasi etis atau sosial dari posisi penulis
+                </pre>
+            </div>
+            
+            <p class="mb-10">Integrasi ketiga tahap ini memungkinkan pembaca mengoptimalkan pemahaman mereka terhadap teks akademik kompleks, dengan AI berfungsi sebagai asisten yang memperkaya proses pembacaan daripada menggantikannya.</p>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 Visualisasi Interaktif Jenis-Jenis Teks Akademik</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup dropdown navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                const toggle = item.querySelector('.nav-toggle');
+                if (toggle) {
+                    toggle.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        item.classList.toggle('active');
+                        const dropdown = item.querySelector('.nav-dropdown');
+                        if (item.classList.contains('active')) {
+                            dropdown.classList.add('show');
+                        } else {
+                            dropdown.classList.remove('show');
+                        }
+                    });
+                }
+            });
+
+            // Setup navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    navLinks.forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Hide all content sections
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show the selected content section
+                    const sectionId = this.getAttribute('data-section');
+                    document.getElementById(sectionId).classList.add('active');
+                    
+                    // Scroll to top of content
+                    document.querySelector('.content').scrollTo(0, 0);
+                });
+            });
+
+            // Activate the first link by default
+            if (navLinks.length > 0) {
+                navLinks[0].click();
+            }
+        });
+    </script>
+</body>
+</html>
